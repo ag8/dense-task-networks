@@ -1,0 +1,2 @@
+from dense_task_networks.envs.dtn_env import DTNEnv
+from dense_task_networks.envs.dtn_extrahard_env import DTNExtraHardEnv
