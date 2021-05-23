@@ -1,2 +1,3 @@
-from dense_task_networks.envs.dtn_env import DTNEnv
-from dense_task_networks.envs.dtn_extrahard_env import DTNExtraHardEnv
+from envs.dense_task_networks.dense_task_networks.envs.CombinedDTNEnv import CombinedDTNEnv
+from envs.dense_task_networks.dense_task_networks.envs.SingleDTNEnv import SingleDTNEnv
+from envs.dense_task_networks.dense_task_networks.envs.Robot2dEnv import Robot2dEnv
