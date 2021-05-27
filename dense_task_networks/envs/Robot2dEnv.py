@@ -15,6 +15,9 @@ class Robot2dEnv(gym.Env):
   }
 
   def __init__(self, goal_velocity=0):
+    self.step_num = 0
+    self.max_steps = 50000
+
     self.min_effector_action = -1.0
     self.max_effector_action = 1.0
 
@@ -168,19 +171,22 @@ class Robot2dEnv(gym.Env):
     )
 
     # FOR NOW, make the goal depend only on the left block (BUGBUG temporary)
+    # and make sure it's not taking way too long
     done = bool(
       left_block_position[0] > self.goal_square_center[0] - self.goal_square_size / 2 and \
       left_block_position[0] < self.goal_square_center[0] + self.goal_square_size / 2 and \
       left_block_position[1] > self.goal_square_center[1] - self.goal_square_size / 2 and \
       left_block_position[1] < self.goal_square_center[1] + self.goal_square_size / 2 and \
-      not grab
+      not grab or \
+      self.step_num > self.max_steps
     )
 
     reward = 0
     if done:
       reward = 100.0
-    reward -= math.pow(action[0], 2) * 0.1
-    reward -= math.pow(action[1], 2) * 0.1
+    # reward -= math.pow(action[0], 2) * 0.1
+    # reward -= math.pow(action[1], 2) * 0.1
+    reward -= 1
 
     self.state = np.array([effector_position[0], effector_position[1],
                            left_block_position[0], left_block_position[1],
@@ -194,13 +200,17 @@ class Robot2dEnv(gym.Env):
     return self.state, reward, done, {}
 
   def reset(self):
-    self.state = np.array([self.np_random.uniform(low=-5, high=5), self.np_random.uniform(low=-5, high=5),  # 1
-                           self.left_block_start[0], self.left_block_start[1],  # 2
-                           -1.0 if self.left_block_style == "C" else 1.0,  # 3
-                           self.right_block_start[0], self.right_block_start[1],  # 4
-                           -1.0 if self.right_block_style == "C" else 1.0,  # 5
-                           -1.0  # 6
-                           ])
+    self.state = np.array([  # self.np_random.uniform(low=-5, high=5), self.np_random.uniform(low=-5, high=5),  # 1
+      -7, 0,  # bugbug for now have it start near the first block so it learns something
+      self.left_block_start[0], self.left_block_start[1],  # 2
+      -1.0 if self.left_block_style == "C" else 1.0,  # 3
+      self.right_block_start[0], self.right_block_start[1],  # 4
+      -1.0 if self.right_block_style == "C" else 1.0,  # 5
+      -1.0  # 6
+    ])
+
+    self.step_num = 1
+
     return np.array(self.state)
 
   def render(self, mode='human'):
