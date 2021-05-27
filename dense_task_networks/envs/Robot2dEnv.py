@@ -118,6 +118,8 @@ class Robot2dEnv(gym.Env):
     return -1
 
   def step(self, action):
+    self.step_num += 1
+
     effector_position = [self.state[0], self.state[1]]
     left_block_position = [self.state[2], self.state[3]]
     right_block_position = [self.state[5], self.state[6]]
