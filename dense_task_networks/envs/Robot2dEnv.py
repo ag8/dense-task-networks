@@ -16,7 +16,7 @@ class Robot2dEnv(gym.Env):
 
   def __init__(self, goal_velocity=0):
     self.step_num = 0
-    self.max_steps = 50000
+    self.max_steps = 50
 
     self.min_effector_action = -1.0
     self.max_effector_action = 1.0
@@ -26,8 +26,8 @@ class Robot2dEnv(gym.Env):
 
     self.min_board_position = -10
     self.max_board_position = 10
-    self.power = 0.1
-    self.max_speed = 0.7
+    self.power = 0.3
+    self.max_speed = 7.0
 
     self.goal_square_center = (0, 0)
     self.goal_square_size = 2.0
@@ -184,8 +184,8 @@ class Robot2dEnv(gym.Env):
     )
 
     reward = 0
-    if done:
-      reward = 100.0
+    if done and self.step_num <= self.max_steps:
+      reward = 1.0
     # reward -= math.pow(action[0], 2) * 0.1
     # reward -= math.pow(action[1], 2) * 0.1
     reward -= 1
@@ -194,7 +194,7 @@ class Robot2dEnv(gym.Env):
                            left_block_position[0], left_block_position[1],
                            -1.0 if self.left_block_style == "C" else 1.0,
                            right_block_position[0], right_block_position[1],
-                           1.0 if self.right_block_style == "C" else 1.0,
+                           -1.0 if self.right_block_style == "C" else 1.0,
                            action[2]])
 
     # print("Reward: " + str(reward))
