@@ -110,10 +110,10 @@ class BlockEffectorEnv(gym.Env):
       pos[0] = 0
     if pos[1] < 0:
       pos[1] = 0
-    if pos[0] > self.h:
-      pos[0] = self.h
-    if pos[1] > self.w:
-      pos[1] = self.w
+    if pos[0] >= self.h:
+      pos[0] = self.h - 1
+    if pos[1] >= self.w:
+      pos[1] = self.w - 1
 
     return pos
 
@@ -180,7 +180,20 @@ class BlockEffectorEnv(gym.Env):
     return np.array(self.state)
 
   def render(self, mode='human'):
-    pass
+    world = np.zeros([self.h, self.w, 3], dtype=np.int)
+
+    world[self.state[0]][self.state[1]] = [80, 0, 0]
+
+    world[self.state[2]][self.state[3]] = [80, 80, 255]
+    world[self.state[4]][self.state[5]] = [80, 255, 80]
+
+    if (self.state[6] == 1):
+      world[self.state[0]][self.state[1]] = [255, 0, 0]
+
+    import matplotlib.pyplot as plt
+    plt.matshow(world)
+    plt.show()
+
 
   def close(self):
     if self.viewer:
