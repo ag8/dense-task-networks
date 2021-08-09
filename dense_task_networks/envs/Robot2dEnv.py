@@ -1,10 +1,6 @@
-import math
-
-import numpy as np
-
 import gym
+import numpy as np
 from gym import spaces
-from gym.envs.classic_control.rendering import Color
 from gym.utils import seeding
 
 
