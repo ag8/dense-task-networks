@@ -147,7 +147,7 @@ class BlockEffectorEnv(gym.Env):
       self.grabbing = True
     elif action == 6:
       self.grabbing = False
-    elif action > 6:  # noop
+    elif action > 6:  # no-op
       pass
     else:
       effector_position, block_positions = self._move(_vector_from_action(action), effector_position, block_positions)
