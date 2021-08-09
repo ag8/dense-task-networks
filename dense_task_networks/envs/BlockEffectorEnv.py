@@ -180,72 +180,7 @@ class BlockEffectorEnv(gym.Env):
     return np.array(self.state)
 
   def render(self, mode='human'):
-    screen_width = 600
-    screen_height = 600
-
-    world_width = self.max_board_position - self.min_board_position
-    scale = screen_width / world_width
-    effectorradius = 10
-
-    from gym.envs.classic_control import rendering
-
-    if self.viewer is None:
-      self.viewer = rendering.Viewer(screen_width, screen_height)
-
-      # ltop = (- 0.5, - 0.5)
-      # rtop = (+ 0.5, - 0.5)
-      # lbot = (- 0.5, + 0.5)
-      # rbot = (+ 0.5, + 0.5)
-      # lblock = rendering.FilledPolygon([ltop, rtop, lbot, rbot])
-      # lblock.set_color(0, 0, 1)
-      # lblock.add_attr(rendering.Transform(translation=(0, 0)))
-      # self.lblocktrans = rendering.Transform()
-      # lblock.add_attr(self.lblocktrans)
-      # self.viewer.add_geom(lblock)
-
-    pos = [self.state[0], self.state[1]]
-    grab = self.state[8]
-
-    # Draw the target area
-    gt = rendering.Transform(translation=((self.goal_square_center[0] - self.min_board_position) * scale,
-                                          (self.goal_square_center[1] - self.min_board_position) * scale))
-    _ = self.viewer.draw_polygon(((0.5 * self.goal_square_size * scale, 0.5 * self.goal_square_size * scale),
-                                  (-0.5 * self.goal_square_size * scale, 0.5 * self.goal_square_size * scale),
-                                  (-0.5 * self.goal_square_size * scale, -0.5 * self.goal_square_size * scale),
-                                  (0.5 * self.goal_square_size * scale, -0.5 * self.goal_square_size * scale)),
-                                 filled=True,
-                                 color=(1, 0.6, 0.6)).add_attr(gt)
-
-    # Draw the left block (not very efficiently)
-    lbt = rendering.Transform(translation=(0, 0))
-    lblock = self.viewer.draw_polygon(((0.5 * scale, 0.5 * scale), (-0.5 * scale, 0.5 * scale),
-                                       (-0.5 * scale, -0.5 * scale), (0.5 * scale, -0.5 * scale)), filled=True,
-                                      color=(0, 0, 1)).add_attr(lbt)
-    lblock_pos = [self.state[2], self.state[3]]
-    lbt.set_translation(
-      (lblock_pos[0] - self.min_board_position) * scale, (lblock_pos[1] - self.min_board_position) * scale
-    )
-
-    # Draw the right block (not very efficiently)
-    rbt = rendering.Transform(translation=(0, 0))
-    rblock = self.viewer.draw_polygon(((0.5 * scale, 0.5 * scale), (-0.5 * scale, 0.5 * scale),
-                                       (-0.5 * scale, -0.5 * scale), (0.5 * scale, -0.5 * scale)), filled=True,
-                                      color=(0, 1, 1)).add_attr(rbt)
-    rblock_pos = [self.state[5], self.state[6]]
-    rbt.set_translation(
-      (rblock_pos[0] - self.min_board_position) * scale, (rblock_pos[1] - self.min_board_position) * scale
-    )
-
-    # Draw the end effector
-    t = rendering.Transform(translation=(0, 0))
-    effectorcolor = (.5, 1, .5) if grab > 0 else (1, .5, .5)
-    effector = self.viewer.draw_circle(radius=effectorradius, res=30, color=effectorcolor).add_attr(t)
-
-    t.set_translation(
-      (pos[0] - self.min_board_position) * scale, (pos[1] - self.min_board_position) * scale
-    )
-
-    return self.viewer.render(return_rgb_array=mode == 'rgb_array')
+    pass
 
   def close(self):
     if self.viewer:
