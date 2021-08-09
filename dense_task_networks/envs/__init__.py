@@ -1,3 +1,4 @@
 from envs.dense_task_networks.dense_task_networks.envs.CombinedDTNEnv import CombinedDTNEnv
 from envs.dense_task_networks.dense_task_networks.envs.SingleDTNEnv import SingleDTNEnv
-from envs.dense_task_networks.dense_task_networks.envs.Robot2dEnv import Robot2dEnv
+# from envs.dense_task_networks.dense_task_networks.envs.Robot2dEnv import Robot2dEnv
+from envs.dense_task_networks.dense_task_networks.envs.BlockEffectorEnv import BlockEffectorEnv
